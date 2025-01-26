@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import {
   View,
   Text,
@@ -8,22 +8,28 @@ import {
   StyleSheet,
   Alert,
 } from "react-native";
-import { AuthContext } from "../context/AuthContext";
-import { signInUser } from "../../action/signin-action";
+import { AuthContext } from "../../context/AuthContext";
+import { signInUser } from "../../../action/signin-action";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../../store";
+import { emailChanged, passwordChanged } from "./_redux/sign-in-slice";
 
 export default function LoginScreen() {
+  const state = useSelector((state: RootState) => state.signInState);
+  const dispatch = useDispatch();
+
   const { login, authLoading } = useContext<any>(AuthContext);
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
 
   const handleLogin = async () => {
-    const formData = new FormData();
-    formData.append("email", email);
-    formData.append("password", password);
     try {
-      const response = await signInUser(formData);
-      if (response) {
-        login(response.token);
+      const response = await signInUser({
+        email: state.email.value,
+        password: state.password.value,
+      });
+      if (response.data.success) {
+        login(response.data.token);
+        dispatch(emailChanged(""));
+        dispatch(passwordChanged(""));
       } else {
         Alert.alert("Login failed", "Please check your username and password.");
       }
@@ -45,14 +51,14 @@ export default function LoginScreen() {
           <Text style={styles.title}>Login</Text>
           <TextInput
             placeholder="Email"
-            value={email}
-            onChangeText={setEmail}
+            value={state.email.value}
+            onChangeText={(value) => dispatch(emailChanged(value))}
             style={styles.input}
           />
           <TextInput
             placeholder="Password"
-            value={password}
-            onChangeText={setPassword}
+            value={state.password.value}
+            onChangeText={(value) => dispatch(passwordChanged(value))}
             secureTextEntry
             style={styles.input}
           />

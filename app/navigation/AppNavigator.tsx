@@ -2,8 +2,8 @@ import React, { useContext } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
 import { AuthContext } from "../context/AuthContext";
-import LoginScreen from "../screens/LoginScreen";
-import HomeScreen from "../screens/HomeScreen";
+import LoginScreen from "../screens/auth/LoginScreen";
+import HomeScreen from "../screens/dashboard/HomeScreen";
 import { ActivityIndicator, View, StyleSheet } from "react-native";
 
 type RootStackParamList = {
