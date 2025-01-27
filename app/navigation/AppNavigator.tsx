@@ -5,13 +5,36 @@ import { AuthContext } from "../context/AuthContext";
 import LoginScreen from "../screens/auth/LoginScreen";
 import HomeScreen from "../screens/dashboard/HomeScreen";
 import { ActivityIndicator, View, StyleSheet } from "react-native";
+import SplashScreen from "../screens/spash-screen/SplashScreen";
 
 type RootStackParamList = {
-  Home: undefined;
+  Dashboard: undefined;
   Login: undefined;
+  Splash: undefined;
+};
+
+type DashboardStackParamList = {
+  Home: undefined;
+  Profile: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
+const DashboardStack = createNativeStackNavigator<DashboardStackParamList>();
+
+const DashboardNavigator = () => (
+  <DashboardStack.Navigator>
+    <DashboardStack.Screen
+      name="Home"
+      component={HomeScreen}
+      options={{ headerShown: false }}
+    />
+    {/* <DashboardStack.Screen
+      name="Profile"
+      component={ProfileScreen}
+      options={{ title: "Profile" }}
+    /> */}
+  </DashboardStack.Navigator>
+);
 
 export default function AppNavigator() {
   const { user, isLoading } = useContext<any>(AuthContext);
@@ -27,10 +50,15 @@ export default function AppNavigator() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
+        <Stack.Screen
+          name="Splash"
+          component={SplashScreen}
+          options={{ headerShown: false }}
+        />
         {user ? (
           <Stack.Screen
-            name="Home"
-            component={HomeScreen}
+            name="Dashboard"
+            component={DashboardNavigator}
             options={{ headerShown: false }}
           />
         ) : (
