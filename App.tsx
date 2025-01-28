@@ -14,8 +14,8 @@ import { Text } from "react-native";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
-    Poppins_400Regular,
-    Poppins_700Bold,
+    poppins_regular: Poppins_400Regular,
+    poppins_bold: Poppins_700Bold,
   });
 
   if (!fontsLoaded) {

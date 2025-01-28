@@ -37,7 +37,7 @@ const DashboardNavigator = () => (
 );
 
 export default function AppNavigator() {
-  const { user, isLoading } = useContext<any>(AuthContext);
+  const { isLoading } = useContext<any>(AuthContext);
 
   if (isLoading) {
     return (
@@ -49,25 +49,23 @@ export default function AppNavigator() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator initialRouteName="Splash">
         <Stack.Screen
           name="Splash"
           component={SplashScreen}
           options={{ headerShown: false }}
         />
-        {user ? (
-          <Stack.Screen
-            name="Dashboard"
-            component={DashboardNavigator}
-            options={{ headerShown: false }}
-          />
-        ) : (
-          <Stack.Screen
-            name="Login"
-            component={LoginScreen}
-            options={{ headerShown: false }}
-          />
-        )}
+        <Stack.Screen
+          name="Dashboard"
+          component={DashboardNavigator}
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen
+          name="Login"
+          component={LoginScreen}
+          options={{ headerShown: false }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

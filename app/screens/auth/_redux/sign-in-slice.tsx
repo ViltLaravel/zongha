@@ -8,6 +8,7 @@ export const initialState: SignInState = {
   password: {
     obscure: true,
   },
+  isLoading: false,
 };
 
 export const signInSlice = createSlice({
@@ -58,6 +59,12 @@ export const signInSlice = createSlice({
         },
       };
     },
+    isLoadingChanged(state: SignInState, action: PayloadAction<boolean>) {
+      return {
+        ...state,
+        isLoading: action.payload,
+      };
+    },
   },
 });
 
@@ -66,6 +73,7 @@ export const {
   emailChanged,
   passwordChanged,
   passwordEyeToggled,
+  isLoadingChanged,
 } = signInSlice.actions;
 
 export default signInSlice.reducer;
